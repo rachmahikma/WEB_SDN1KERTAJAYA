@@ -1,85 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dasbor Siswa</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <title>Dasbor Siswa</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body { background-color: #f8f9fa; }
+    .sidebar {
+      min-height: 100vh;
+      background-color: #ffc107;
+      padding: 1rem;
+    }
+    .sidebar a {
+      display: block;
+      padding: .5rem 1rem;
+      color: #212529;
+      text-decoration: none;
+      margin-bottom: .25rem;
+      border-radius: .25rem;
+    }
+    .sidebar a:hover {
+      background-color: #fff3cd;
+    }
+    .summary-box {
+      background: #fff;
+      border-radius: .5rem;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    }
+  </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-warning">
-    <div class="container">
-        <a class="navbar-brand" href="<?= site_url('dashboard') ?>">Dasbor</a>
-        <div class="d-flex align-items-center">
-            <a href="<?= site_url('dashboard') ?>" class="nav-link text-dark me-3">Dasbor</a>
-            <a class="logout-link nav-link text-dark" href="<?= site_url('dashboard/logout') ?>">Keluar</a>
-        </div>
-    </div>
-</nav>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 sidebar">
+      <h4 class="mb-3">Menu Siswa</h4>
+      <a href="<?= site_url('dashboard/siswa') ?>" class="menu-link">Dasbor</a>
+      <a href="<?= site_url('dashboard/siswa_data') ?>" class="menu-link">Laporan Akademik</a>
+      <a href="<?= site_url('dashboard/siswa_data') ?>" class="menu-link">Klasifikasi Prestasi</a>
+      <a href="<?= site_url('dashboard/siswa_data') ?>" class="menu-link">Info Akademik</a>
+      <a href="<?= site_url('dashboard/logout') ?>" class="logout-link text-danger">Keluar</a>
+			<a href="<?= site_url('dashboard/siswa_export_pdf') ?>" class="btn btn-sm btn-danger">
+    Download PDF
+</a>
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-9 p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1>Dasbor Siswa</h1>
-            <p class="text-muted">Halo <?= htmlspecialchars($student_name ?? $username) ?>, lihat laporan akademik dan prestasi Anda di sini.</p>
-            <?php if (! empty($student_class)): ?>
-                <p class="text-muted mb-0">Kelas: <strong><?= htmlspecialchars($student_class) ?></strong></p>
-            <?php endif; ?>
+          <h2>Dasbor Siswa</h2>
+          <p class="text-muted">Halo <?= htmlspecialchars($student_name ?? $username) ?>, lihat laporan akademik dan prestasi Anda di sini.</p>
+          <?php if (! empty($student_class)): ?>
+            <p class="text-muted mb-0">Kelas: <strong><?= htmlspecialchars($student_class) ?></strong></p>
+          <?php endif; ?>
         </div>
-    </div>
+        <span class="badge bg-success fs-6">Siswa</span>
+      </div>
 
-    <div class="row g-4">
-        <div class="col-md-6">
-            <a href="<?= site_url('dashboard/siswa_data') ?>" style="text-decoration: none; color: inherit;">
-                <div class="card shadow-sm h-100" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div class="card-body">
-                        <h5 class="card-title">Laporan Akademik</h5>
-                        <p class="card-text">Akses nilai semester, rata-rata, dan catatan pembelajaran Anda. Sudah ada <strong><?= $grades_count ?? 0 ?></strong> entri nilai.</p>
-                        <p class="text-muted mb-0 small">Klik untuk lihat detail →</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-6">
-            <a href="<?= site_url('dashboard/siswa_data') ?>" style="text-decoration: none; color: inherit;">
-                <div class="card shadow-sm h-100" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div class="card-body">
-                        <h5 class="card-title">Klasifikasi Prestasi</h5>
-                        <p class="card-text">Lihat kategori prestasi sesuai pencapaian akademik dan ekstrakurikuler. Total prestasi: <strong><?= $achievements_count ?? 0 ?></strong>.</p>
-                        <p class="text-muted mb-0 small">Klik untuk lihat detail →</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Jadwal Pelajaran</h5>
-                    <p class="card-text">Lihat jadwal pelajaran dan kegiatan sekolah Anda.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <a href="<?= site_url('dashboard/siswa_data') ?>" style="text-decoration: none; color: inherit;">
-                <div class="card shadow-sm h-100" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div class="card-body">
-                        <h5 class="card-title">Info Akademik</h5>
-                        <p class="card-text">Dapatkan informasi penting tentang rapor dan pembinaan prestasi. Catatan hadir: <strong><?= $attendance_count ?? 0 ?></strong>.</p>
-                        <p class="text-muted mb-0 small">Klik untuk lihat detail →</p>
-                    </div>
-                </div>
-            </a>
-        </div>
+      <!-- Summary Boxes -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-3"><div class="summary-box">Nilai<br><strong><?= $grades_count ?? 0 ?></strong></div></div>
+        <div class="col-md-3"><div class="summary-box">Prestasi<br><strong><?= $achievements_count ?? 0 ?></strong></div></div>
+        <div class="col-md-3"><div class="summary-box">Absensi<br><strong><?= $attendance_count ?? 0 ?></strong></div></div>
+      </div>
+
+      <!-- Konten dinamis -->
+      <div id="mainContent">
+        <p class="text-muted">Silakan pilih menu di kiri untuk menampilkan data.</p>
+      </div>
     </div>
+  </div>
 </div>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.logout-link').forEach(function (link) {
-            link.addEventListener('click', function (event) {
-                if (!confirm('Apakah Anda yakin ingin logout?')) {
-                    event.preventDefault();
-                }
-            });
-        });
+function loadContent(url) {
+  fetch(url)
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('mainContent').innerHTML = html;
+    })
+    .catch(err => {
+      document.getElementById('mainContent').innerHTML = "<p class='text-danger'>Gagal memuat konten.</p>";
     });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Logout konfirmasi
+  document.querySelectorAll('.logout-link').forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      if (!confirm('Apakah Anda yakin ingin logout?')) {
+        event.preventDefault();
+      }
+    });
+  });
+
+  // Menu interaktif
+  document.querySelectorAll('.menu-link').forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      var url = this.getAttribute('href');
+      loadContent(url);
+    });
+  });
+});
 </script>
 </body>
 </html>

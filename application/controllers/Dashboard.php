@@ -194,6 +194,31 @@ class Dashboard extends CI_Controller {
 
         $this->load->view('dashboard/siswa_data', $data);
     }
+public function siswa_export_pdf()
+{
+    $student_id = $this->session->userdata('student_id');
+    if (! $student_id) {
+        redirect('dashboard');
+        return;
+    }
+
+    $student = $this->M_students->get($student_id);
+    if (! $student) {
+        show_404();
+    }
+
+    $data['student'] = $student;
+
+    // Load view jadi HTML string
+    $html = $this->load->view('dashboard/pdf_siswa', $data, true);
+
+    // Panggil library Dompdf
+    $this->load->library('dompdf_gen');
+    $this->dompdf->load_html($html);
+    $this->dompdf->set_paper('A4', 'portrait');
+    $this->dompdf->render();
+    $this->dompdf->stream("laporan_siswa_".$student['nisn'].".pdf", array("Attachment" => true));
+}
 
     public function manage_students($action = '', $id = null)
     {
